@@ -1,0 +1,106 @@
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  
+  <h1> expense manager </h1>
+  <h2> Add a new </h2>
+  
+  <div id="form-box">
+  <form>
+    <div>
+      <span>Type:</span> 
+        <select name="type">
+            <option value="card">Card</option>
+            <option value="cash">Cash</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+    
+    <div>
+      <span>Name:</span> <input type="text" name="item-name" placeholder="What did you spend on?">
+    </div>
+    
+    <div>
+      <span>Date:</span> <input type="date" name="date">
+    </div>
+   
+    <div>
+      <span>Amount:</span> <input type="number" name="amount" placeholder="How much?">
+    </div>
+    
+  </form>
+  </div>
+  
+  <div id="button"><span>Add a new expense</span></div>
+  
+  <table>
+    <tr>
+      <th id="type" class="center">type</th>
+      <th>name</th>
+      <th id="date">date</th>
+      <th style="text-align: right" id="amount">amount</th>
+    </tr>
+    <tr id="if-empty">
+      <td colspan="4"><span>Your added items will show up here!</span></td>
+    </tr>
+    <tr>
+      <p> can put every day </p>
+      <td>
+        <br>
+        <input type="submit" value="Send my expense">
+      </br>
+     </td>
+  </tr>
+  </table>
+  <body>
+      <script>
+          class Store {
+  static getExpendItems() {
+    let expendItems;
+
+    if (localStorage.getItem("expendItems") === null) {
+      expendItems = [];
+    } else {
+      expendItems = JSON.parse(localStorage.getItem("expendItems"));
+    }
+
+    return expendItems;
+  }
+
+  static getIncomeItems() {
+    let incomeItems;
+
+    if (localStorage.getItem("incomeItems") === null) {
+      incomeItems = [];
+    } else {
+      incomeItems = JSON.parse(localStorage.getItem("incomeItems"));
+    }
+
+    return incomeItems;
+  }
+
+  static displayExpendItems() {
+    // Get expend items from local storage
+    const expendItems = Store.getExpendItems();
+
+    // Filter expend items in month selected with present year
+    let expendItemsMonth = Store.filterMonth(expendItems);
+
+    // Ascending sort expend items by date
+    expendItemsMonth.sort(function (a, b) {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+    expendItemsMonth.forEach(function (expendItem) {
+      const ui = new UI();
+
+      // Add expend items to UI
+      ui.addExpendToList(expendItem);
+    });
+  }
+
+ </script>
+  </body>
+  </html>
+
+  
